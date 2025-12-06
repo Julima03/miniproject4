@@ -1,12 +1,22 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
+
 const app = express();
 app.use(express.json());
-let dbConnect = require("./dbConnect");
+app.use(cors());
 
-const port = 5050;
+// Routes
+app.use("/api/movies", require("./Routes/MovieRoutes"));
+app.use("/api/reviews", require("./Routes/ReviewRoutes"));
 
-app.use("/", express.static("./public"));
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("DB connection error:", err));
 
-app.listen(port, () => {
-  console.log("server is up");
-});
+app.listen(process.env.PORT, () =>
+  console.log(`API running on http://localhost:${process.env.PORT}`)
+);
