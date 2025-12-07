@@ -1,9 +1,21 @@
-const router = require("express").Router();
-const MovieController = require("../Controllers/MovieController");
+const express = require("express");
+const router = express.Router();
+const Movie = require("../Models/Movie");
 
-router.get("/", MovieController.getAllMovies);
-router.post("/", MovieController.createMovie);
-router.put("/:id", MovieController.updateMovie);
-router.delete("/:id", MovieController.deleteMovie);
+// GET all movies
+router.get("/", async (req, res) => {
+  const movies = await Movie.find();
+  res.json(movies);
+});
+
+// ⭐ GET movie by ID  ← THIS IS WHAT YOU ARE MISSING
+router.get("/:id", async (req, res) => {
+  try {
+    const movie = await Movie.findById(req.params.id);
+    res.json(movie);
+  } catch (error) {
+    res.status(404).json({ message: "Movie not found" });
+  }
+});
 
 module.exports = router;

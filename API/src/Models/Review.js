@@ -6,8 +6,10 @@ const ReviewSchema = new mongoose.Schema({
     ref: "Movie",
     required: true,
   },
-  comment: String,
-  rating: Number,
+  name: { type: String, required: true },
+  rating: { type: Number, required: true },
+  comment: { type: String, required: true },
+  date: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Review", ReviewSchema);

@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div style={{ padding: 40, textAlign: "center" }}>
       <h1 style={{ fontSize: "2.5rem", marginBottom: 10 }}>
-        Welcome to Movie Shop 🎬
+        Welcome to Watchflix 🎬
       </h1>
 
       <p style={{ fontSize: "1.2rem", marginBottom: 30 }}>

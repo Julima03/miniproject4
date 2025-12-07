@@ -1,32 +1,39 @@
+import { Link } from "react-router-dom";
 import { useMovies } from "../Context/MovieContext";
 
 export default function MovieCard({ movie }) {
-  const { addToCart, deleteMovie, updateMovie } = useMovies();
+  const { cart, setCart } = useMovies();
+
+  const addToCart = () => {
+    const exists = cart.find((item) => item._id === movie._id);
+
+    if (exists) {
+      setCart(
+        cart.map((item) =>
+          item._id === movie._id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...movie, quantity: 1 }]);
+    }
+  };
 
   return (
     <div
-      style={{
-        padding: "15px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        background: "#fafafa",
-      }}
+      className="movie-card"
+      style={{ border: "1px solid #ccc", padding: 20 }}
     >
-      <h3>{movie.title}</h3>
-      <p>Genre: {movie.genre}</p>
-      <p>Price: ${movie.price}</p>
+      {/* ⭐ Make movie title clickable — goes to Movie Details page */}
+      <h3>
+        <Link to={`/movie/${movie._id}`}>{movie.title}</Link>
+      </h3>
 
-      <button onClick={() => addToCart(movie)}>Add to Cart</button>
+      <p>{movie.genre}</p>
+      <p>${movie.price}</p>
 
-      <button
-        onClick={() =>
-          updateMovie(movie.id, { title: movie.title + " (Updated)" })
-        }
-      >
-        Update
-      </button>
-
-      <button onClick={() => deleteMovie(movie.id)}>Delete</button>
+      <button onClick={addToCart}>Add to Cart</button>
     </div>
   );
 }

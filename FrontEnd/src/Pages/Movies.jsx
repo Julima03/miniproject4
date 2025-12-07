@@ -1,34 +1,25 @@
-import { useEffect } from "react";
-import { useMovies } from "../Context/MovieContext";
+import { useContext, useEffect } from "react";
+import { MovieContext } from "../Context/MovieContext";
 import MovieCard from "../Components/MovieCard";
 
 export default function Movies() {
-  const { movies, fetchMovies } = useMovies();
+  const { movies, getMovies } = useContext(MovieContext);
 
-  // Load movies from API on page load
   useEffect(() => {
-    fetchMovies();
+    getMovies();
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: 30 }}>
       <h1>Movies</h1>
 
-      {movies.length === 0 ? (
-        <p>No movies available.</p>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-            gap: "20px",
-          }}
-        >
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
-      )}
+      {movies.length === 0 && <p>No movies available.</p>}
+
+      <div className="movie-grid">
+        {movies.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
     </div>
   );
 }

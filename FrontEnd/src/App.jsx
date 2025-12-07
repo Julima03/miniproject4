@@ -3,6 +3,7 @@ import Navbar from "./Components/NavBar";
 import Home from "./Pages/Home";
 import Movies from "./Pages/Movies";
 import Cart from "./Pages/Cart";
+import MovieDetails from "./Pages/MovieDetails";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
       </Routes>
     </>
   );
