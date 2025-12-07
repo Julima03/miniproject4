@@ -1,26 +1,21 @@
-import * as movieService from "../Services/MovieService.js";
+const Movie = require("../Models/Movie");
 
-export const getMovies = async (req, res) => {
-  const movies = await movieService.getAllMovies();
+exports.getAllMovies = async (req, res) => {
+  const movies = await Movie.find();
   res.json(movies);
 };
 
-export const getMovie = async (req, res) => {
-  const movie = await movieService.getMovieById(req.params.id);
+exports.createMovie = async (req, res) => {
+  const movie = await Movie.create(req.body);
   res.json(movie);
 };
 
-export const createMovie = async (req, res) => {
-  const movie = await movieService.createMovie(req.body);
-  res.json(movie);
+exports.updateMovie = async (req, res) => {
+  await Movie.findByIdAndUpdate(req.params.id, req.body);
+  res.json({ success: true });
 };
 
-export const updateMovie = async (req, res) => {
-  const movie = await movieService.updateMovie(req.params.id, req.body);
-  res.json(movie);
-};
-
-export const deleteMovie = async (req, res) => {
-  await movieService.deleteMovie(req.params.id);
-  res.json({ message: "Deleted" });
+exports.deleteMovie = async (req, res) => {
+  await Movie.findByIdAndDelete(req.params.id);
+  res.json({ success: true });
 };

@@ -1,21 +1,19 @@
-import * as reviewService from "../Services/ReviewService.js";
+const Review = require("../Models/Review");
 
-export const getReviews = async (req, res) => {
-  const reviews = await reviewService.getReviewsByMovie(req.params.movieId);
+exports.getReviews = async (req, res) => {
+  const reviews = await Review.find({ movieId: req.params.movieId });
   res.json(reviews);
 };
 
-export const createReview = async (req, res) => {
-  const review = await reviewService.createReview(req.body);
+exports.addReview = async (req, res) => {
+  const review = await Review.create({
+    movieId: req.params.movieId,
+    ...req.body,
+  });
   res.json(review);
 };
 
-export const updateReview = async (req, res) => {
-  const review = await reviewService.updateReview(req.params.id, req.body);
-  res.json(review);
-};
-
-export const deleteReview = async (req, res) => {
-  await reviewService.deleteReview(req.params.id);
-  res.json({ message: "Deleted" });
+exports.deleteReview = async (req, res) => {
+  await Review.findByIdAndDelete(req.params.id);
+  res.json({ success: true });
 };
